@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="regis.css">
+</head>
+<body>
+  <div class="registration-form">
+    <h2>Registrasi Pengguna</h2>
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" minlength="8" required>
+      <label for="jenis-kelamin">Jenis Kelamin:</label>
+      <div class="radio-group">
+        <label><input type="radio" name="jenis-kelamin" value="Laki-laki" required> Laki-laki</label>
+        <label><input type="radio" name="jenis-kelamin" value="Perempuan" required> Perempuan</label>
+      </div>
+      <label for="pekerjaan">Pekerjaan:</label>
+      <select id="pekerjaan" name="pekerjaan" required>
+        <option value="">-- Pilih Pekerjaan --</option>
+        <option value="Mahasiswa">Mahasiswa</option>
+        <option value="Karyawan">Karyawan</option>
+        <option value="Wiraswasta">Wiraswasta</option>
+        <option value="Lainnya">Lainnya</option>
+      </select>
+    
+      <label for="hobi">Hobi:</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="hobi[]" value="Membaca"> Membaca</label>
+        <label><input type="checkbox" name="hobi[]" value="Olahraga"> Olahraga</label>
+        <label><input type="checkbox" name="hobi[]" value="Menulis"> Menulis</label>
+        <label><input type="checkbox" name="hobi[]" value="Traveling"> Traveling</label>
+      </div>
+    
+      <button type="submit" name="submit">Daftar</button>
+    </form>
+  </div>
+  
+  <script>
+    // Cek apakah browser mendukung local storage
+    if (typeof(Storage) !== "undefined") {
+      // Ambil data dari form dan simpan ke dalam objek saat form disubmit
+      document.querySelector('form').addEventListener('submit', function(event) {
+        event.preventDefault(); // prevent form from submitting
+
+        var userData = {
+          email: document.getElementById("email").value,
+          password: document.getElementById("password").value,
+          jenisKelamin: document.querySelector('input[name="jenis-kelamin"]:checked').value,
+          pekerjaan: document.getElementById("pekerjaan").value,
+          hobi: []
+        };
+
+        var checkboxes = document.getElementsByName("hobi[]");
+        for (var i = 0; i < checkboxes.length; i++) {
+          if (checkboxes[i].checked) {
+            userData.hobi.push(checkboxes[i].value);
+          }
+        }
+
+        // Simpan objek user ke dalam local storage
+        localStorage.setItem("user", JSON.stringify(userData));
+        alert("Data berhasil disimpan di local storage!");
+        // Setelah
+// Menggunakan window.location.href untuk mengarahkan pengguna ke halaman login
+window.location.href = "index.html";
+  });
+} else {
+  alert("Maaf, browser Anda tidak mendukung local storage");
+}
+  </script> 
+</body>
+</html>

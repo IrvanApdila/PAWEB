@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="index.css">
+  <title>Form Login</title>
+  <style>
+  .register-button {
+    background-color: #000204;
+    padding: 10px 20px;
+    border-radius: 1px;
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .register-button:hover {
+    background-color: #000000;
+  }
+  </style>
+</head>
+<header>SELAMAT DATANG DI VANSTORE</header>
+<body>
+  <div class="login-box">
+    <form method="post" onsubmit="return validateForm()">
+      <label for="email">Email:</label>
+      <input type="text" id="email" name="email">
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password">
+      <input type="submit" name="submit" value="Login">
+      <a href="regis.html" class="register-button">Registrasi</a>
+
+    </form>
+  </div>
+  <script>
+   // Function untuk validasi form
+function validateForm(event) {
+  event.preventDefault(); // Mencegah default action pada form
+
+  // Ambil data pengguna dari local storage
+  var userData = JSON.parse(localStorage.getItem('userData'));
+
+  // Ambil data email dan password yang diinputkan pada form login
+  var email = document.getElementById('email').value;
+  var password = document.getElementById('password').value;
+
+  // Validasi apakah email dan password sudah diisi
+  if (email == '' || password == '') {
+    alert('Email dan password harus diisi');
+    return false;
+  } else {
+    // Validasi apakah email dan password sesuai dengan data di local storage
+    var storedData = JSON.parse(localStorage.getItem('user'));
+    if (email === storedData.email && password === storedData.password) {
+      alert('Login berhasil');
+      window.location.href = 'beranda.html';
+      return true;
+    } else {
+      alert('Email atau password salah');
+      return false;
+    }
+  }
+}
+
+document.querySelector('form').addEventListener('submit', validateForm);
+
+  </script>
+</body>
+</html>
